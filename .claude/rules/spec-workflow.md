@@ -22,4 +22,4 @@ paths:
 
 ## 命名规范
 
-- specs 下的功能目录名：英文、kebab-case、简洁（如 `user-login`，不是 `implement-user-login-feature`）
+- features 下的功能目录名：英文、kebab-case、简洁（如 `user-login`，不是 `implement-user-login-feature`）

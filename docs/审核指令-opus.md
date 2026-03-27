@@ -1,166 +1,42 @@
-# Claude 执行指令（Opus 4.6 版）
+只做“第一阶段最小落地复审”，不得重新做总审计，不得修改文件。
 
-## 一、你的身份与职责
+优先只读取：
+1. docs/handoff/phase1-plan.json
+2. docs/spec-system/迁移说明.md
+3. docs/spec-system/验收清单.md
+4. Sonnet 本轮完成报告
 
-你当前使用 **Opus 4.6**。
+仅在必要时，补读以下关键文件：
+- CLAUDE.md
+- .claude/settings.json
+- .claude/rules/governance-core.md
+- .claude/rules/implementation-gate.md
+- .claude/rules/validation-loop.md
+- .claude/rules/docs-spec.md
+- .claude/rules/spec-workflow.md
+- .claude/hooks/gate-write.js
+- .claude/hooks/gate-bash.js
+- .claude/skills/implement/SKILL.md
+- .claude/skills/verify/SKILL.md
+- docs/spec-system/模板/AI执行版/feature.json
+- features/example-login/feature.json
+- specs/README.md
 
-你的职责不是施工，而是：
+禁止：
+- 重读 docs/需求.md 全文
+- 重读 docs/技术难点与解决方案.md 全文
+- 重新扫描整个 .claude/
+- 重新扫描整个 features/
+- 修改任何文件
 
-- 审计
-- 计划
-- 收口
-- 交接
+你的任务：
+1. 判断 Sonnet 是否真正完成第一阶段最小闭环
+2. 判断是否存在越界、遗漏或与阶段目标不符之处
+3. 按“通过 / 有条件通过 / 不通过”给出结论
+4. 如果不完全通过，列出最小修复清单（只列必须修的项）
+5. 如果通过，列出我接下来人工验收时最该检查的 5 个点
 
-你不得直接展开第一阶段大量文件创建，也不得进入第二阶段。
-
----
-
-## 二、本轮唯一目标
-
-本轮只做一件事：
-
-**基于项目现状与需求文档，生成“第一阶段最小落地交接清单”，并写入交接文件，供 Sonnet 4.6 后续施工。**
-
----
-
-## 三、允许读取的文件
-
-你只允许读取以下内容：
-
-1. `docs/需求.md`
-2. `docs/技术难点与解决方案.md`
-3. 项目根 `CLAUDE.md`
-4. `.claude/` 目录结构与必要文件
-5. `specs/` 目录结构与必要文件
-
-要求：
-
-- 不要额外全量扫描无关业务代码
-- 不要主动读取大量业务源码文件
-- 如果你认为还需要额外读取文件，必须先说明理由，并先输出“最小补充读取清单”
-
----
-
-## 四、你必须完成的任务
-
-你必须完成以下 7 项：
-
-1. 输出当前可保留项
-2. 输出必须修正项
-3. 输出必须迁移项
-4. 输出“第一阶段最小落地文件清单”
-5. 输出每个文件的职责
-6. 输出本轮禁止动内容
-7. 将上述结果写入交接文件：
-   - `docs/handoff/phase1-plan.json`
-
----
-
-## 五、交接文件要求
-
-你写入的 `docs/handoff/phase1-plan.json` 必须尽量精简，但足够让 Sonnet 4.6 直接施工。
-
-至少包含：
-
-- `phase`
-- `goal`
-- `files_to_create`
-- `files_to_modify`
-- `forbidden_this_round`
-- `notes`
-
-要求：
-
-- 只写第一阶段最小落地内容
-- 不要把第二阶段内容写入交接文件
-- 不要写成长篇说明
-- 不要把需求文档大段复制进去
-- 交接文件必须便于 Sonnet 直接读取和执行
-
----
-
-## 六、严格禁止事项
-
-本轮你禁止：
-
-1. 禁止创建治理体系正式文件（除交接文件外）
-2. 禁止修改业务代码
-3. 禁止创建完整 rules / hooks / templates / agents
-4. 禁止进入第二阶段
-5. 禁止重写 `docs/需求.md`
-6. 禁止复述大段原文
-7. 禁止输出冗长过程报告
-8. 禁止顺手修其他无关文件
-
----
-
-## 七、你必须遵守的关键硬约束
-
-你生成交接清单时，必须遵守以下已确定规则：
-
-1. 唯一执行态目录根只能是：
-   - `features/<feature-id>/`
-
-2. `specs/` 只允许保留：
-   - README
-   - 模板
-   - 迁移说明
-   - 历史兼容内容
-
-3. 本项目命令体系只允许：
-   - `/spec`
-   - `/design`
-   - `/tasks`
-   - `/implement`
-   - `/verify`
-
-4. 禁止：
-   - `/project:*`
-
-5. 本项目状态文件只允许：
-   - `feature.json`
-
-6. 禁止：
-   - `feature.yaml`
-
-7. 高风险 skill 必须手动触发，不得自动触发
-
-8. Windows 为优先平台：
-   - 默认优先 Node.js
-   - 不得产出 bash-only 主路径
-
-9. 第一阶段完成后，不得自动进入第二阶段
-   - 阶段切换必须人工确认
-
----
-
-## 八、输出格式要求
-
-你在本轮结束时，只输出：
-
-1. 极简审计结论
-   - 可保留项
-   - 必须修正项
-   - 必须迁移项
-
-2. 交接文件是否已生成
-   - 路径
-   - 包含哪些字段
-
-3. 明确写出：
-   - “已生成交接文件，等待 Sonnet 执行”
-
-不要继续扩展，不要继续施工。
-
----
-
-## 九、成功标准
-
-只有同时满足以下条件，才算本轮成功：
-
-1. 你没有修改业务代码
-2. 你没有进入第一阶段正式施工
-3. 你只创建了一个交接文件
-4. 交接文件足以让 Sonnet 直接施工
-5. 你没有把第二阶段内容混入交接文件
-6. 你在完成后立即停止
+输出要求：
+- 不复述大文档
+- 只输出结论、证据点、问题清单
+- 结束后立即停止

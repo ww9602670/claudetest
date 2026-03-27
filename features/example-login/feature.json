@@ -3,12 +3,14 @@
   "status": "done",
   "phase": "phase1",
   "phase_gate_approved": true,
-
+  "phase_gate_approved_by": "示例用户",
+  "phase_gate_approved_at": "2026-03-28T10:00:00Z",
+  "phase_gate_note": "第一阶段示例，虚拟批准",
+  "owner": "示例团队",
   "approved_by": "示例用户",
   "approved_at": "2026-03-28T10:00:00Z",
   "approved_method": "human",
   "approved_note": "这是一个展示用的虚拟示例，非真实功能",
-
   "allowed_paths": [
     "features/example-login/",
     "src/auth/"
@@ -17,7 +19,6 @@
     "src/core/",
     "config/production/"
   ],
-
   "required_checks": [
     {
       "id": "lint",
@@ -32,12 +33,21 @@
       "command_bash": "npm test -- --testPathPattern=auth"
     }
   ],
-
   "max_fix_rounds": 3,
   "fix_round_current": 0,
-
+  "repeat_failure_stop_threshold": 2,
+  "stop_conditions": [
+    "all required_checks pass",
+    "fix_round_current >= max_fix_rounds",
+    "unrecoverable error encountered"
+  ],
+  "human_review_required_when": [
+    "status transitions to approved",
+    "fix_round_current >= repeat_failure_stop_threshold",
+    "status set to blocked"
+  ],
+  "evidence_dir": "features/example-login/evidence/",
   "block_reason": "",
-
   "created_at": "2026-03-28T08:00:00Z",
   "updated_at": "2026-03-28T10:00:00Z"
 }
