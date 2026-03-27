@@ -1,0 +1,43 @@
+{
+  "feature_id": "<feature-id>",
+  "status": "draft",
+  "phase": "phase1",
+  "phase_gate_approved": false,
+
+  "approved_by": "",
+  "approved_at": "",
+  "approved_method": "",
+  "approved_note": "",
+
+  "allowed_paths": [
+    "features/<feature-id>/",
+    "src/<相关目录>/"
+  ],
+  "forbidden_paths": [
+    "src/core/",
+    "config/production/"
+  ],
+
+  "required_checks": [
+    {
+      "id": "lint",
+      "description": "代码风格检查",
+      "command_windows": "npm run lint",
+      "command_bash": "npm run lint"
+    },
+    {
+      "id": "test",
+      "description": "单元测试",
+      "command_windows": "npm test",
+      "command_bash": "npm test"
+    }
+  ],
+
+  "max_fix_rounds": 3,
+  "fix_round_current": 0,
+
+  "block_reason": "",
+
+  "created_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "updated_at": "YYYY-MM-DDTHH:MM:SSZ"
+}

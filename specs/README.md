@@ -1,28 +1,28 @@
-# Specs 文档库
+# ⚠️ 迁移说明：specs/ 已停用为执行态目录
 
-本目录存放所有功能的 Spec 驱动开发文档。
+## 状态
 
-## 目录结构
+`specs/` 目录**不再作为执行态目录**。
 
-```
-specs/
-├── <功能名>/
-│   ├── spec.md          ← 需求规格（/project:spec 生成）
-│   ├── design.md        ← 技术设计（/project:design 生成）
-│   ├── tasks.md         ← 任务清单（/project:tasks 生成）
-│   └── verify.md        ← 验收报告（/project:verify 生成）
-```
+新的执行态目录为 `features/`。
 
-## 工作流
+## 迁移信息
 
-```
-/project:spec <需求描述>
-    ↓
-/project:design <功能名>
-    ↓
-/project:tasks <功能名>
-    ↓
-/project:implement <功能名>  （可多次执行，断点续做）
-    ↓
-/project:verify <功能名>
-```
+| 旧 | 新 |
+|----|----|
+| `specs/<功能>/` | `features/<feature-id>/` |
+| `/project:spec` | `/spec` |
+| `/project:design` | `/design` |
+| `/project:tasks` | `/tasks` |
+| `/project:implement` | `/implement` |
+| `/project:verify` | `/verify` |
+
+## 详细迁移步骤
+
+见 `docs/spec-system/迁移说明.md`
+
+## 本目录现状
+
+本目录保留为**历史归档**。如有已有功能文档，请参考迁移说明迁移到 `features/`。
+
+**禁止**在此目录下创建新功能目录。

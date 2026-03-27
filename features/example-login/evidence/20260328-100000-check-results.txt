@@ -1,0 +1,30 @@
+# 验证证据 — example-login — 2026-03-28 10:00:00
+
+## lint 检查
+
+$ npm run lint
+> project@1.0.0 lint
+> eslint src/auth/
+
+✔ No ESLint warnings or errors
+
+## 单元测试
+
+$ npm test -- --testPathPattern=auth
+> project@1.0.0 test
+> jest --testPathPattern=auth
+
+PASS tests/auth/login.test.js
+  用户登录
+    ✓ AC-01: 正确邮箱+密码返回 200 和 JWT (45ms)
+    ✓ AC-02: 错误密码返回 401 (12ms)
+    ✓ AC-03: remember=true 时 JWT 过期 7 天 (8ms)
+    ✓ AC-04: logout 后令牌失效 (15ms)
+    ✓ AC-05: 5 次失败后返回 429 (23ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Time:        1.234s
+
+---
+⚠️ 注意：这是虚拟示例的占位符证据文件。

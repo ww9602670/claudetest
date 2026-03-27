@@ -1,0 +1,199 @@
+{
+  "phase": "phase1",
+  "goal": "第一阶段最小落地：重写 CLAUDE.md、创建核心 rules、2 个 gate hooks、8 份模板、feature.json 模板、1 个最小示例、迁移说明、验收清单",
+
+  "audit": {
+    "keep": [
+      ".claude/settings.json — 保留权限配置，后续追加 hooks 注册",
+      ".claude/agents/spec-writer.md — 保留，第二阶段调整",
+      ".claude/agents/designer.md — 保留，第二阶段调整",
+      ".claude/agents/reviewer.md — 保留，第二阶段调整"
+    ],
+    "fix": [
+      "CLAUDE.md — 引用 /project:*、指向 specs/ 为执行态目录，必须重写",
+      ".claude/rules/spec-workflow.md — paths 指向 specs/**，必须改为 features/**",
+      ".claude/settings.json — 需追加 hooks 注册段",
+      "specs/README.md — 引用 /project:*，需改为迁移说明"
+    ],
+    "migrate": [
+      ".claude/commands/*.md — 5 个命令文件迁移为 .claude/skills/*/SKILL.md，commands 兼容保留",
+      "specs/ — 不再作为执行态目录，仅保留 README（改为迁移说明）"
+    ],
+    "forbidden_this_round": [
+      "不得修改任何业务代码",
+      "不得创建完整 agents 集合",
+      "不得创建完整自动修复循环",
+      "不得创建 deploy/release 能力",
+      "不得进入第二阶段",
+      "不得使用 /project:*",
+      "不得使用 feature.yaml",
+      "不得生成 bash-only 关键路径",
+      "不得新增嵌套 CLAUDE.md / .claude/rules/ / .claude/skills/"
+    ]
+  },
+
+  "files_to_create": [
+    {
+      "path": "CLAUDE.md",
+      "action": "rewrite",
+      "purpose": "最小常驻入口，≤200 行。含核心流程、扁平命令列表（/spec /design /tasks /implement /verify）、features/ 为唯一执行态根、feature.json 为唯一状态源、禁止事项索引"
+    },
+    {
+      "path": ".claude/rules/governance-core.md",
+      "action": "create",
+      "purpose": "全局治理规则，无 paths 限制。含状态机约束、批准协议、单一事实源、阶段闸门"
+    },
+    {
+      "path": ".claude/rules/implementation-gate.md",
+      "action": "create",
+      "purpose": "实现门禁规则，paths: features/**。含 14 项前置检查清单、范围控制双落点、Git 分支要求"
+    },
+    {
+      "path": ".claude/rules/validation-loop.md",
+      "action": "create",
+      "purpose": "验证循环规则，paths: features/**。含 max_fix_rounds、停止条件、Bash 双层策略、证据链要求"
+    },
+    {
+      "path": ".claude/rules/docs-spec.md",
+      "action": "create",
+      "purpose": "文档规范规则，paths: features/**。含小白版与 AI 执行版映射关系、一致性检查要求"
+    },
+    {
+      "path": ".claude/hooks/gate-write.js",
+      "action": "create",
+      "purpose": "写入门禁 hook。检查 feature.json 状态、批准协议、allowed_paths/forbidden_paths、Git 分支。覆盖 Edit|MultiEdit|Write。Node.js 实现，异常时放行"
+    },
+    {
+      "path": ".claude/hooks/gate-bash.js",
+      "action": "create",
+      "purpose": "Bash 门禁 hook。verifying 状态下白名单模式（只允许 required_checks），其他状态黑名单模式（拦截高危命令）。Node.js 实现"
+    },
+    {
+      "path": "docs/spec-system/模板/小白版/goal.md",
+      "action": "create",
+      "purpose": "小白版模板：目标说明。含功能概述、允许/禁止范围、成功标准"
+    },
+    {
+      "path": "docs/spec-system/模板/小白版/plan.md",
+      "action": "create",
+      "purpose": "小白版模板：方案翻译。用非技术语言描述技术方案"
+    },
+    {
+      "path": "docs/spec-system/模板/小白版/steps.md",
+      "action": "create",
+      "purpose": "小白版模板：执行清单。可勾选的步骤列表"
+    },
+    {
+      "path": "docs/spec-system/模板/小白版/acceptance.md",
+      "action": "create",
+      "purpose": "小白版模板：验收说明。验收标准 + 结果记录"
+    },
+    {
+      "path": "docs/spec-system/模板/AI执行版/spec.md",
+      "action": "create",
+      "purpose": "AI 执行版模板：需求规格"
+    },
+    {
+      "path": "docs/spec-system/模板/AI执行版/design.md",
+      "action": "create",
+      "purpose": "AI 执行版模板：技术设计"
+    },
+    {
+      "path": "docs/spec-system/模板/AI执行版/tasks.md",
+      "action": "create",
+      "purpose": "AI 执行版模板：任务清单"
+    },
+    {
+      "path": "docs/spec-system/模板/AI执行版/verify.md",
+      "action": "create",
+      "purpose": "AI 执行版模板：验证报告"
+    },
+    {
+      "path": "docs/spec-system/模板/AI执行版/feature.json",
+      "action": "create",
+      "purpose": "feature.json 模板。含全部必填字段：feature_id, status, allowed_paths, forbidden_paths, required_checks, max_fix_rounds, approved_by/at/method/note, phase, phase_gate_approved 等"
+    },
+    {
+      "path": "features/example-login/",
+      "action": "create",
+      "purpose": "最小示例目录，含完整的 8 文件 + feature.json + evidence/，展示一个虚拟功能的完整文档结构"
+    },
+    {
+      "path": ".claude/skills/spec/SKILL.md",
+      "action": "create",
+      "purpose": "skill: /spec。同步生成 goal.md + spec.md。disable-model-invocation: false"
+    },
+    {
+      "path": ".claude/skills/design/SKILL.md",
+      "action": "create",
+      "purpose": "skill: /design。同步生成 plan.md + design.md。disable-model-invocation: false"
+    },
+    {
+      "path": ".claude/skills/tasks/SKILL.md",
+      "action": "create",
+      "purpose": "skill: /tasks。同步生成 steps.md + tasks.md。disable-model-invocation: false"
+    },
+    {
+      "path": ".claude/skills/implement/SKILL.md",
+      "action": "create",
+      "purpose": "skill: /implement。逐条执行 tasks.md。disable-model-invocation: true（高风险，手动触发）"
+    },
+    {
+      "path": ".claude/skills/verify/SKILL.md",
+      "action": "create",
+      "purpose": "skill: /verify。验收检查 + 双文档一致性。disable-model-invocation: true（高风险，手动触发）"
+    },
+    {
+      "path": "docs/spec-system/迁移说明.md",
+      "action": "create",
+      "purpose": "说明从旧体系（specs/ + /project:*）到新体系（features/ + 扁平命令）的迁移步骤"
+    },
+    {
+      "path": "docs/spec-system/验收清单.md",
+      "action": "create",
+      "purpose": "第一阶段验收清单，对应需求文档第二十四节 19 项检查"
+    }
+  ],
+
+  "files_to_modify": [
+    {
+      "path": ".claude/settings.json",
+      "action": "modify",
+      "purpose": "追加 hooks 注册：PreToolUse(Edit|MultiEdit|Write) -> gate-write.js，PreToolUse(Bash) -> gate-bash.js"
+    },
+    {
+      "path": ".claude/rules/spec-workflow.md",
+      "action": "rewrite",
+      "purpose": "paths 从 specs/** 改为 features/**，更新文档互锁规则适配新目录结构"
+    },
+    {
+      "path": "specs/README.md",
+      "action": "rewrite",
+      "purpose": "改为迁移说明，声明 specs/ 不再作为执行态目录"
+    }
+  ],
+
+  "forbidden_this_round": [
+    "修改业务代码",
+    "创建完整自动修复循环",
+    "创建完整 agents 集合（现有 3 个 agent 保留不动）",
+    "创建 deploy/release 能力",
+    "进入第二阶段增强",
+    "使用 /project:*",
+    "使用 feature.yaml",
+    "生成 bash-only 关键路径",
+    "新增嵌套 CLAUDE.md / .claude/rules/ / .claude/skills/",
+    "把批准状态写进 auto memory"
+  ],
+
+  "notes": [
+    "所有 hook 脚本用 Node.js，通过 stdin 接收 JSON，异常时 exit 0 放行",
+    "gate-write.js 的 if 条件必须为 Edit || MultiEdit || Write",
+    "command_windows 是 required_checks 的权威字段",
+    "现有 .claude/commands/ 保留不删，作为兼容别名层，skill 同名优先",
+    "现有 3 个 agents 本轮保留不动，第二阶段再调整",
+    ".claude/skills/ 目录已存在（空），直接在其下创建子目录",
+    "features/ 目录需新建",
+    "技术难点解决方案见 docs/技术难点与解决方案.md，施工时按对应难点编号参考"
+  ]
+}

@@ -1,46 +1,66 @@
-# 开发规范
-
-本工作区使用 **Spec 驱动开发流程**，所有功能开发必须遵循以下规范。
+# 开发规范（最小常驻入口）
 
 ## 核心原则
 
-1. **先规格、后实现**：任何功能必须先产出 Spec 文档，经确认后才能编码
-2. **可追溯**：每个功能的 Spec → Design → Tasks → 代码 形成完整链路
-3. **任务原子化**：实现阶段按 Task 清单逐条执行，每完成一条标记 ✅
-4. **持续验证**：每个 Task 完成后立即验证，而非全部完成后再检查
+1. **features/ 是唯一执行态根目录** — 每个功能在 `features/<feature-id>/` 下工作
+2. **feature.json 是唯一状态源** — 每个功能目录必须有 `feature.json`
+3. **先规格、后实现** — 状态未到 `approved` 禁止写入业务代码
+4. **任务原子化** — 按 tasks.md 逐条执行，每完成一条标记 ✅
 
-## 开发流程（必须按顺序执行）
+## 命令体系（扁平，无前缀）
+
+| 命令 | 作用 | 产出 |
+|------|------|------|
+| `/spec` | 需求分析 | `goal.md` + `spec.md` |
+| `/design` | 技术设计 | `plan.md` + `design.md` |
+| `/tasks` | 任务拆解 | `steps.md` + `tasks.md` |
+| `/implement` | 逐步实现 | 业务代码（须 approved） |
+| `/verify` | 验收检查 | `verify.md` + 双文档对比 |
+
+## 状态机（严格有序）
 
 ```
-需求输入 → /project:spec → /project:design → /project:tasks → /project:implement → /project:verify
+draft → review → approved → implementing → verifying → done | blocked
 ```
 
-### 阶段说明
+- `approved` 之前：禁止任何 Edit / Write / MultiEdit 到业务路径
+- 状态变更必须人工确认，AI 不得自动推进阶段
 
-| 阶段 | 命令 | 产出物 | 存放位置 |
-|------|------|--------|----------|
-| 需求分析 | `/project:spec` | `spec.md` | `specs/<功能名>/spec.md` |
-| 技术设计 | `/project:design` | `design.md` | `specs/<功能名>/design.md` |
-| 任务拆解 | `/project:tasks` | `tasks.md` | `specs/<功能名>/tasks.md` |
-| 逐步实现 | `/project:implement` | 代码文件 | 项目源码目录 |
-| 验收检查 | `/project:verify` | `verify.md` | `specs/<功能名>/verify.md` |
+## 目录结构
 
-## 文档规范
+```
+features/<feature-id>/
+├── feature.json          ← 唯一状态源
+├── goal.md               ← 小白版：目标说明
+├── plan.md               ← 小白版：方案翻译
+├── steps.md              ← 小白版：执行清单
+├── acceptance.md         ← 小白版：验收说明
+├── spec.md               ← AI 执行版：需求规格
+├── design.md             ← AI 执行版：技术设计
+├── tasks.md              ← AI 执行版：任务清单
+├── verify.md             ← AI 执行版：验证报告
+└── evidence/             ← 验证证据链
+```
 
-- Spec 文档使用中文
-- 文件名使用英文小写 + 连字符（kebab-case）
-- 每个功能模块在 `specs/` 下建立独立目录
-- 功能目录名应简洁明确，如 `user-auth`、`data-export`
+## 关键禁止项
 
-## 代码规范
+- 禁止使用 `/project:*` 命令
+- 禁止使用 `feature.yaml`（只用 `feature.json`）
+- 禁止把 `specs/` 当执行态目录（已迁移，见 specs/README.md）
+- 禁止新增嵌套 `CLAUDE.md` / `.claude/rules/` / `.claude/skills/`
+- 禁止在未 approved 状态下写入业务代码
+- 禁止 AI 自动推进阶段闸门
 
-- 新增代码必须与现有项目风格保持一致
-- 修改前先阅读相关现有代码
-- 每个 Task 的改动应尽量独立，避免跨 Task 耦合
-- 如需修改公共模块，在 Task 描述中明确标注影响范围
+## 规则索引
 
-## 沟通规范
+- 治理核心：`.claude/rules/governance-core.md`
+- 实现门禁：`.claude/rules/implementation-gate.md`
+- 验证循环：`.claude/rules/validation-loop.md`
+- 文档规范：`.claude/rules/docs-spec.md`
+- 工作流互锁：`.claude/rules/spec-workflow.md`
 
-- 遇到需求模糊时，**主动提问**而非假设
-- 每个阶段完成后向用户汇报产出物路径
-- 发现 Spec 与实际实现有冲突时，先更新 Spec 再继续
+## 模板位置
+
+- 小白版：`docs/spec-system/模板/小白版/`
+- AI 执行版：`docs/spec-system/模板/AI执行版/`
+- 迁移说明：`docs/spec-system/迁移说明.md`
