@@ -23,3 +23,14 @@ paths:
 ## 命名规范
 
 - features 下的功能目录名：英文、kebab-case、简洁（如 `user-login`，不是 `implement-user-login-feature`）
+
+---
+
+## 执行层级标注
+
+本规则中的所有约束均为**生效层**（AI 自觉遵守），无硬拦截支撑。
+
+具体约束：
+- 文档互锁（spec→design→tasks 顺序）→ AI 自觉
+- 变更同步 → AI 自觉
+- 命名规范 → AI 自觉

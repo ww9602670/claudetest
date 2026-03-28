@@ -35,3 +35,19 @@ draft → review → approved → implementing → verifying → done | blocked
 - 第一阶段完成后不得自动进入第二阶段
 - 阶段切换必须人工确认
 - AI 在完成当前阶段后必须停止并等待指令
+
+---
+
+## 执行层级标注
+
+| 约束项 | 层级 | 执行机制 |
+|--------|------|----------|
+| 状态机顺序流转（禁止跳跃） | 生效层 | AI 自觉遵守 |
+| 禁止 AI 自动推进状态 | 生效层 | AI 自觉遵守 |
+| blocked 需说明 block_reason | 生效层 | AI 自觉遵守 |
+| approved_by 不得为空 | 硬拦截层 | gate-write.js 在 implementing/verifying 状态下检查 |
+| approved_at 为有效时间戳 | 硬拦截层 | gate-write.js 在 implementing/verifying 状态下检查 |
+| phase_gate_approved 为 true | 硬拦截层 | gate-write.js 在 implementing/verifying 状态下检查 |
+| feature.json 是唯一状态源 | 生效层 | AI 自觉遵守 |
+| 禁止 feature.yaml | 生效层 | AI 自觉遵守 |
+| 阶段切换必须人工确认 | 生效层 | AI 自觉遵守 + feature.json phase_gate_approved 字段控制 |
