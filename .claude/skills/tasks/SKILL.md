@@ -1,7 +1,18 @@
 ---
 name: tasks
 description: 任务拆解：同步生成小白版 steps.md 和 AI 执行版 tasks.md
+argument-hint: "<feature-id>"
+user-invocable: true
 disable-model-invocation: false
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Glob
+  - Grep
+paths:
+  - "features/**/steps.md"
+  - "features/**/tasks.md"
 ---
 
 # /tasks — 任务拆解

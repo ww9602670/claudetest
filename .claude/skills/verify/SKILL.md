@@ -1,7 +1,21 @@
 ---
 name: verify
 description: 验收检查：运行 required_checks，检查双文档一致性，生成 verify.md
+argument-hint: "<feature-id>"
+user-invocable: true
 disable-model-invocation: true
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+paths:
+  - "features/**/verify.md"
+  - "features/**/acceptance.md"
+  - "features/**/evidence/**"
+  - "features/**/feature.json"
 ---
 
 # /verify — 验收检查

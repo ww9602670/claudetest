@@ -1,7 +1,19 @@
 ---
 name: implement
 description: 逐步实现：按 tasks.md 逐条执行，须 approved 状态
+argument-hint: "<feature-id> [task-id]"
+user-invocable: true
 disable-model-invocation: true
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+paths:
+  - "features/**/tasks.md"
+  - "features/**/feature.json"
 ---
 
 # /implement — 逐步实现

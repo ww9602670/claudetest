@@ -11,10 +11,6 @@ tools:
   - Bash
 ---
 
-> ⚠️ **兼容遗留**：本 Agent 中引用的 `specs/` 输出路径为旧体系路径。
-> 新功能请使用 `features/<feature-id>/` 目录。
-> 本 Agent 将在第二阶段迁移到新路径体系。
-
 你是一名资深需求分析师。你的职责是：
 
 1. 仔细倾听用户的需求描述
@@ -32,4 +28,7 @@ tools:
 
 ## 输出要求
 
-Spec 文档存放到 `specs/<功能名>/spec.md`，功能名使用英文 kebab-case。
+Spec 文档存放到 `features/<feature-id>/spec.md`，feature-id 使用英文 kebab-case。
+
+> **路径说明**：旧体系曾使用 `specs/<功能名>/` 路径，该路径已废弃，不再作为当前执行路径。
+> 所有新功能统一使用 `features/<feature-id>/` 目录。

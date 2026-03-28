@@ -1,7 +1,18 @@
 ---
 name: design
 description: 技术设计：同步生成小白版 plan.md 和 AI 执行版 design.md
+argument-hint: "<feature-id>"
+user-invocable: true
 disable-model-invocation: false
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Glob
+  - Grep
+paths:
+  - "features/**/plan.md"
+  - "features/**/design.md"
 ---
 
 # /design — 技术设计
