@@ -71,16 +71,24 @@ function main() {
       const featureJson = findActiveFeatureJson(PROJECT_ROOT);
 
       if (featureJson && featureJson.status === 'verifying') {
-        // 白名单模式：只允许 required_checks 中命令的首个词（命令名）
+        // 白名单模式：精确匹配 required_checks 中的完整命令
+
+        // 第一道防线：拒绝任何包含 shell 拼接/组合操作符的命令
+        // 即使命令看似以白名单命令开头，只要包含拼接符就一律拦截
+        const SHELL_COMBINATORS = /&&|\|\||[;|]|>{1,2}|<|`|\$\(/;
+        if (SHELL_COMBINATORS.test(command)) {
+          block(`[gate-bash] verifying 模式：命令 "${command.substring(0, 80)}" 包含 shell 拼接/组合操作符（&&, ||, ;, |, >, >>, <, \`, $(），已拦截。`);
+        }
+
+        // 第二道防线：精确匹配完整命令（去除首尾空白后完全一致）
         const requiredChecks = featureJson.required_checks || [];
-        const allowedBins = requiredChecks.map(c => {
-          const cmd = (c.command_windows || c.command_bash || '').trim();
-          return cmd.split(/\s+/)[0]; // 取命令名，如 "npm"
+        const allowedCommands = requiredChecks.map(c => {
+          return (c.command_windows || c.command_bash || '').trim();
         }).filter(Boolean);
 
-        const cmdBin = command.trim().split(/\s+/)[0];
-        if (!allowedBins.includes(cmdBin)) {
-          block(`[gate-bash] verifying 模式：命令 "${command.substring(0, 60)}" 不在 required_checks 白名单中，已拦截。`);
+        const trimmedCommand = command.trim();
+        if (!allowedCommands.includes(trimmedCommand)) {
+          block(`[gate-bash] verifying 模式：命令 "${command.substring(0, 80)}" 不在 required_checks 白名单中（需精确匹配），已拦截。`);
         }
       } else {
         // 黑名单模式

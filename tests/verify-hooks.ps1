@@ -53,7 +53,7 @@ function Record {
 
 Write-Host ""
 Write-Host "============================================================" -ForegroundColor White
-Write-Host "  Hooks Verification (5 groups, 15 tests)" -ForegroundColor White
+Write-Host "  Hooks Verification (6 groups, 18 tests)" -ForegroundColor White
 Write-Host "============================================================" -ForegroundColor White
 
 # === save original ===
@@ -151,6 +151,24 @@ Record -code $c -expectCode 2
 $j = '{"tool_name":"Write","tool_input":{"file_path":"H:/claude_worke/src/auth/login.js","content":"x"}}'
 $c = Run-Hook -hook $hookWrite -json $j -testId "5c" -desc "src/auth/login.js (verifying + allowed)" -expect "ALLOW"
 Record -code $c -expectCode 0
+
+# ============================================================
+# 6: verifying 模式命令拼接绕过测试（修复验证）
+# ============================================================
+Write-Host ""
+Write-Host "--- 6: verifying command injection bypass tests ---" -ForegroundColor Magenta
+
+$j = '{"tool_name":"Bash","tool_input":{"command":"npm run lint && rm -rf /"}}'
+$c = Run-Hook -hook $hookBash -json $j -testId "6a" -desc "npm run lint && rm -rf / (combinator bypass)" -expect "BLOCK"
+Record -code $c -expectCode 2
+
+$j = '{"tool_name":"Bash","tool_input":{"command":"npm run lint ; echo hacked"}}'
+$c = Run-Hook -hook $hookBash -json $j -testId "6b" -desc "npm run lint ; echo hacked (semicolon bypass)" -expect "BLOCK"
+Record -code $c -expectCode 2
+
+$j = '{"tool_name":"Bash","tool_input":{"command":"npm run lint | cat"}}'
+$c = Run-Hook -hook $hookBash -json $j -testId "6c" -desc "npm run lint | cat (pipe bypass)" -expect "BLOCK"
+Record -code $c -expectCode 2
 
 # === restore original ===
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)

@@ -1,5 +1,7 @@
 {
   "feature_id": "example-login",
+  "demo_only": true,
+  "demo_note": "本目录为第一阶段占位演示示例，不对应真实业务代码，不作为真实闭环验收。真实示例留到后续阶段。",
   "status": "done",
   "phase": "phase1",
   "phase_gate_approved": true,

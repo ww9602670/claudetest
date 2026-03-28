@@ -44,7 +44,7 @@ features/<feature-id>/
 
 ## 关键禁止项
 
-- 禁止使用 `/project:*` 命令
+- 禁止使用旧版嵌套命令体系（只允许扁平命令：/spec /design /tasks /implement /verify）
 - 禁止使用 `feature.yaml`（只用 `feature.json`）
 - 禁止把 `specs/` 当执行态目录（已迁移，见 specs/README.md）
 - 禁止新增嵌套 `CLAUDE.md` / `.claude/rules/` / `.claude/skills/`

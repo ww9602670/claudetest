@@ -46,10 +46,11 @@ paths:
 | 检查项 | 层级 | 执行机制 |
 |--------|------|----------|
 | 1. feature.json 存在 | 硬拦截层 | gate-write.js（无活跃 feature 时拒绝业务写入） |
-| 2. status 为 approved/implementing | 硬拦截层 | gate-write.js（只放行 approved/implementing/verifying） |
-| 3. approved_by 不为空 | 硬拦截层 | gate-write.js 检查 |
-| 4. approved_at 存在 | 硬拦截层 | gate-write.js 检查 |
-| 5. phase_gate_approved 为 true | 硬拦截层 | gate-write.js 检查 |
+| 2. status 为 approved/implementing/verifying | 硬拦截层 | gate-write.js（只放行 approved/implementing/verifying） |
+| 3. approved_by 不为空 | 硬拦截层 | gate-write.js 在 approved/implementing/verifying 状态下检查 |
+| 4. approved_at 存在且为有效 ISO 时间戳 | 硬拦截层 | gate-write.js 在 approved/implementing/verifying 状态下检查（含格式校验） |
+| 5. phase_gate_approved 为 true | 硬拦截层 | gate-write.js 在 approved/implementing/verifying 状态下检查 |
+| 5b. approved_method 不为空 | 硬拦截层 | gate-write.js 在 approved/implementing/verifying 状态下检查 |
 | 6. spec.md 已存在 | 生效层 | AI 自觉遵守 |
 | 7. design.md 已存在 | 生效层 | AI 自觉遵守 |
 | 8. tasks.md 已存在 | 生效层 | AI 自觉遵守 |
@@ -60,4 +61,4 @@ paths:
 | 13. 未超出 max_fix_rounds | 生效层 | AI 自觉遵守 |
 | 14. 无未解决 blocked 依赖 | 生效层 | AI 自觉遵守 |
 
-> **小结**：14 项中有 7 项（#1-5, #9-10）由 gate-write.js 硬拦截，其余 7 项靠 AI 自觉遵守。
+> **小结**：14 项（含 5b 共 15 项）中有 8 项（#1-5, #5b, #9-10）由 gate-write.js 硬拦截，其余 7 项靠 AI 自觉遵守。

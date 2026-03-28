@@ -107,10 +107,29 @@ function handleEvent(event) {
   const status = featureJson.status;
   const featureId = featureJson.feature_id || '(unknown)';
 
-  // 批准协议检查
-  if (status === 'implementing' || status === 'verifying') {
-    if (!featureJson.approved_by || !featureJson.approved_at || !featureJson.phase_gate_approved) {
-      block('[gate-write] 拒绝写入: feature "' + featureId + '" 缺少批准信息 (approved_by/approved_at/phase_gate_approved)。');
+  // 批准协议检查：approved / implementing / verifying 三个状态都强校验
+  if (status === 'approved' || status === 'implementing' || status === 'verifying') {
+    if (!featureJson.approved_by) {
+      block('[gate-write] 拒绝写入: feature "' + featureId + '" 缺少 approved_by 字段。');
+      return;
+    }
+    if (!featureJson.approved_at) {
+      block('[gate-write] 拒绝写入: feature "' + featureId + '" 缺少 approved_at 字段。');
+      return;
+    }
+    // approved_at 时间格式校验：必须为有效 ISO 8601 时间戳
+    var parsedTime = Date.parse(featureJson.approved_at);
+    if (isNaN(parsedTime)) {
+      block('[gate-write] 拒绝写入: feature "' + featureId + '" 的 approved_at 不是有效的 ISO 时间戳: "' + featureJson.approved_at + '"。');
+      return;
+    }
+    if (!featureJson.phase_gate_approved) {
+      block('[gate-write] 拒绝写入: feature "' + featureId + '" 的 phase_gate_approved 不为 true。');
+      return;
+    }
+    // approved_method 校验：治理规则要求存在
+    if (!featureJson.approved_method) {
+      block('[gate-write] 拒绝写入: feature "' + featureId + '" 缺少 approved_method 字段（治理规则要求标明批准方式）。');
       return;
     }
   }
