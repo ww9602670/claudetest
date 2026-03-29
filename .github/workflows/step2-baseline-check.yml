@@ -10,21 +10,21 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Check structure
         run: |
           echo "=== Running verify-feature-structure ==="
           echo "Time: $(date -Iseconds)"
-          ls -la features/step2-engineering-baseline/ || echo "Directory not found"
+          ls -la features/step2-engineering-baseline/
           
       - name: Save evidence
         run: |
           mkdir -p evidence
-          ls features/step2-engineering-baseline/ > evidence/structure-check-ci.txt || echo "Failed to list"
+          ls features/step2-engineering-baseline/ > evidence/structure-check-ci.txt
           
       - name: Upload evidence
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: step2-engineering-baseline-structure-check
           path: evidence/structure-check-ci.txt
