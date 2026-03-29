@@ -1,8 +1,5 @@
 name: Step2 Engineering Baseline Check
 
-permissions:
-  contents: read
-
 on:
   workflow_dispatch:
 
@@ -19,12 +16,12 @@ jobs:
         run: |
           echo "=== Running verify-feature-structure ==="
           echo "Time: $(date -Iseconds)"
-          ls features/step2-engineering-baseline/ || echo "Directory not found"
+          ls -la features/step2-engineering-baseline/ || echo "Directory not found"
           
       - name: Save evidence
         run: |
           mkdir -p evidence
-          ls features/step2-engineering-baseline/ > evidence/structure-check-ci.txt || echo "Failed"
+          ls features/step2-engineering-baseline/ > evidence/structure-check-ci.txt || echo "Failed to list"
           
       - name: Upload evidence
         uses: actions/upload-artifact@v3
