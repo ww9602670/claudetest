@@ -1,0 +1,91 @@
+{
+  "feature_id": "snake-game",
+  "name": "网页版贪食蛇游戏",
+  "description": "用于验证 spec 驱动开发机制的贪食蛇游戏",
+  "demo_only": false,
+  "phase": "phase2",
+  "phase_gate_approved": true,
+  "phase_gate_approved_by": "用户（人工拍板）",
+  "phase_gate_approved_at": "2026-03-29T16:04:00Z",
+  "phase_gate_note": "批准作为04首个正式实施对象，验证spec驱动开发机制",
+  "status": "done",
+  "required_checks": [
+    {
+      "id": "check-file-existence",
+      "name": "检查游戏文件是否存在",
+      "description": "验证index.html文件存在",
+      "shell": "bash",
+      "command_bash": "test -f features/snake-game/index.html && echo '✅ index.html exists' || echo '❌ index.html not found'",
+      "cwd": "/h/claude_worke",
+      "timeout_sec": 5,
+      "allow_network": false,
+      "evidence_file": "evidence/check-file-existence.txt",
+      "stop_on_fail": true
+    },
+    {
+      "id": "check-file-not-empty",
+      "name": "检查游戏文件不为空",
+      "description": "验证index.html文件内容不为空",
+      "shell": "bash",
+      "command_bash": "test -s features/snake-game/index.html && echo '✅ index.html is not empty' || echo '❌ index.html is empty'",
+      "cwd": "/h/claude_worke",
+      "timeout_sec": 5,
+      "allow_network": false,
+      "evidence_file": "evidence/check-file-not-empty.txt",
+      "stop_on_fail": true
+    },
+    {
+      "id": "check-file-size",
+      "name": "检查文件大小",
+      "description": "验证index.html文件大小合理",
+      "shell": "bash",
+      "command_bash": "SIZE=$(wc -c < features/snake-game/index.html); if [ $SIZE -gt 5000 ]; then echo \"✅ File size: $SIZE bytes (reasonable)\"; else echo \"❌ File too small: $SIZE bytes\"; fi",
+      "cwd": "/h/claude_worke",
+      "timeout_sec": 5,
+      "allow_network": false,
+      "evidence_file": "evidence/check-file-size.txt",
+      "stop_on_fail": false
+    },
+    {
+      "id": "check-html-structure",
+      "name": "检查HTML基本结构",
+      "description": "验证index.html包含基本HTML标签",
+      "shell": "bash",
+      "command_bash": "if grep -q '<!DOCTYPE html>' features/snake-game/index.html && grep -q '<canvas' features/snake-game/index.html && grep -q 'function gameLoop' features/snake-game/index.html; then echo '✅ HTML structure valid'; else echo '❌ HTML structure invalid'; fi",
+      "cwd": "/h/claude_worke",
+      "timeout_sec": 5,
+      "allow_network": false,
+      "evidence_file": "evidence/check-html-structure.txt",
+      "stop_on_fail": false
+    },
+    {
+      "id": "check-documents-complete",
+      "name": "检查文档完整性",
+      "description": "验证所有必需文档存在",
+      "shell": "bash",
+      "command_bash": "MISSING=0; for file in spec.md design.md tasks.md verify.md goal.md plan.md steps.md acceptance.md README.md; do if [ ! -f \"features/snake-game/$file\" ]; then echo \"❌ Missing: $file\"; MISSING=1; fi; done; if [ $MISSING -eq 0 ]; then echo '✅ All required documents present'; fi",
+      "cwd": "/h/claude_worke",
+      "timeout_sec": 10,
+      "allow_network": false,
+      "evidence_file": "evidence/check-documents-complete.txt",
+      "stop_on_fail": false
+    }
+  ],
+  "evidence_dir": "evidence",
+  "max_fix_rounds": 3,
+  "fix_round_current": 0,
+  "repeat_failure_stop_threshold": 2,
+  "stop_conditions": [
+    "all required_checks pass",
+    "fix_round_current >= max_fix_rounds",
+    "unrecoverable error encountered"
+  ],
+  "human_review_required_when": [
+    "status transitions to implementing",
+    "status transitions to done",
+    "fix_round_current >= repeat_failure_stop_threshold",
+    "status set to blocked"
+  ],
+  "created_at": "2026-03-29T16:16:00Z",
+  "updated_at": "2026-03-29T19:30:00Z"
+}

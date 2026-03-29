@@ -1,0 +1,22 @@
+# Required Check: File Existence
+
+**Check ID**: check-file-existence
+**Name**: 检查游戏文件是否存在
+**Execution Date**: 2026-03-29
+**Status**: ✅ PASSED
+
+## Command Executed
+```bash
+test -f features/snake-game/index.html && echo '✅ index.html exists' || echo '❌ index.html not found'
+```
+
+## Result
+✅ index.html exists
+
+## Interpretation
+The main game file (index.html) exists at the expected location. This confirms that the implementation phase has produced the required artifact.
+
+## Evidence Context
+- File path: features/snake-game/index.html
+- Check performed after implementation completion
+- Part of the basic validation that code artifact exists
