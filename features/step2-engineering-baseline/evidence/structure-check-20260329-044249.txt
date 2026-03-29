@@ -1,0 +1,10 @@
+acceptance.md
+design.md
+evidence
+feature.json
+goal.md
+plan.md
+spec.md
+steps.md
+tasks.md
+verify.md

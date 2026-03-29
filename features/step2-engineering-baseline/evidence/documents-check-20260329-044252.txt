@@ -1,0 +1,8 @@
+-rw-r--r-- 1 Administrator 197121 2390  3月 29 04:41 features/step2-engineering-baseline/acceptance.md
+-rw-r--r-- 1 Administrator 197121 3438  3月 29 04:42 features/step2-engineering-baseline/design.md
+-rw-r--r-- 1 Administrator 197121 1442  3月 29 04:41 features/step2-engineering-baseline/goal.md
+-rw-r--r-- 1 Administrator 197121 1980  3月 29 04:41 features/step2-engineering-baseline/plan.md
+-rw-r--r-- 1 Administrator 197121 2751  3月 29 04:42 features/step2-engineering-baseline/spec.md
+-rw-r--r-- 1 Administrator 197121 2794  3月 29 04:41 features/step2-engineering-baseline/steps.md
+-rw-r--r-- 1 Administrator 197121 2697  3月 29 04:42 features/step2-engineering-baseline/tasks.md
+-rw-r--r-- 1 Administrator 197121 1299  3月 29 04:42 features/step2-engineering-baseline/verify.md

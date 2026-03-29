@@ -1,0 +1,87 @@
+{
+  "feature_id": "step2-engineering-baseline",
+  "status": "draft",
+  "phase": "phase1",
+  "phase_gate_approved": false,
+  "phase_gate_approved_by": "",
+  "phase_gate_approved_at": "",
+  "phase_gate_note": "待人工确认 phase2 批准",
+
+  "owner": "system",
+
+  "approved_by": "",
+  "approved_at": "",
+  "approved_method": "",
+  "approved_note": "",
+
+  "allowed_paths": [
+    "features/step2-engineering-baseline/",
+    "docs/spec-system/"
+  ],
+  "forbidden_paths": [
+    "node_modules/",
+    ".git/"
+  ],
+
+  "required_checks": [
+    {
+      "id": "verify-feature-structure",
+      "name": "验证 feature 目录结构完整性",
+      "shell": "bash",
+      "command_windows": "ls features/step2-engineering-baseline/",
+      "command_bash": "ls features/step2-engineering-baseline/",
+      "cwd": ".",
+      "timeout_sec": 10,
+      "allow_network": false,
+      "evidence_file": "features/step2-engineering-baseline/evidence/structure-check.txt",
+      "stop_on_fail": true
+    },
+    {
+      "id": "verify-feature-json",
+      "name": "验证 feature.json schema 完整性",
+      "shell": "bash",
+      "command_windows": "cat features/step2-engineering-baseline/feature.json",
+      "command_bash": "cat features/step2-engineering-baseline/feature.json",
+      "cwd": ".",
+      "timeout_sec": 10,
+      "allow_network": false,
+      "evidence_file": "features/step2-engineering-baseline/evidence/feature-json-check.txt",
+      "stop_on_fail": true
+    },
+    {
+      "id": "verify-documents-exist",
+      "name": "验证 8 份基础文档存在",
+      "shell": "bash",
+      "command_windows": "ls -la features/step2-engineering-baseline/*.md",
+      "command_bash": "ls -la features/step2-engineering-baseline/*.md",
+      "cwd": ".",
+      "timeout_sec": 10,
+      "allow_network": false,
+      "evidence_file": "features/step2-engineering-baseline/evidence/documents-check.txt",
+      "stop_on_fail": true
+    }
+  ],
+
+  "max_fix_rounds": 3,
+  "fix_round_current": 0,
+  "repeat_failure_stop_threshold": 2,
+
+  "stop_conditions": [
+    "all required_checks pass",
+    "fix_round_current >= max_fix_rounds",
+    "unrecoverable error encountered"
+  ],
+
+  "human_review_required_when": [
+    "status transitions to approved",
+    "fix_round_current >= repeat_failure_stop_threshold",
+    "status set to blocked"
+  ],
+
+  "evidence_dir": "features/step2-engineering-baseline/evidence/",
+
+  "block_reason": "",
+
+  "created_at": "2026-03-29T04:42:00Z",
+  "updated_at": "2026-03-29T04:42:00Z"
+}
