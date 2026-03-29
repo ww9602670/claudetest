@@ -1,11 +1,11 @@
 {
   "feature_id": "step2-engineering-baseline",
   "status": "draft",
-  "phase": "phase1",
-  "phase_gate_approved": false,
-  "phase_gate_approved_by": "",
-  "phase_gate_approved_at": "",
-  "phase_gate_note": "待人工确认 phase2 批准",
+  "phase": "phase2",
+  "phase_gate_approved": true,
+  "phase_gate_approved_by": "user-confirmed",
+  "phase_gate_approved_at": "2026-03-29T14:30:00+08:00",
+  "phase_gate_note": "允许 step2-engineering-baseline 作为 04 启动前真实前提补齐后的真实接入对象进入 phase2，并据此发起新一轮 04 启动复审。当前批准仅覆盖启动前真实前提补齐闭环与复审准备，不代表 04 正式实施已获批准。",
 
   "owner": "system",
 
